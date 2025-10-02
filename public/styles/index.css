@@ -1,0 +1,25 @@
+.border-end {
+  border-right: 1px solid #ccc !important;
+}
+
+
+/* for button save  */
+
+  button.btn-orange.btn {
+    background-color: darkorange; 
+    color: white;
+  }
+  button.btn-orange.btn:hover {
+    background-color: darkorange;
+  }
+
+
+
+/* success message */
+.alert {
+  font-weight: 500;
+  text-align: center;
+}
+.alert-succes {
+  background-color: darkgreen;
+}

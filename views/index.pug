@@ -1,0 +1,83 @@
+meta(charset="UTF-8")
+meta(name="viewport", content="width=device-width,initial-scale=1")
+title E-commerce-Page
+link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css")
+link(rel="stylesheet", href="styles/index.css")
+
+.container.mt-4
+  .row
+    // Left side cards
+    .col-md-6
+      // Big card
+      .card.p-4.mb-3.w-100(style="height: 200px;")
+        .d-flex.justify-content-between.align-items-center
+          .text-center.flex-fill.border-end
+            h4 UGX 50,000,000
+            small Total Sales
+          .text-center.flex-fill
+            h4 UGX 15,000,000
+            small Orders
+      .d-flex.gap-3
+        .card.p-3.flex-fill.text-center
+          h4.text-success UGX #{inStockValue.toLocaleString()}
+          small In stock
+        .card.p-3.flex-fill.text-center
+          h4.text-danger 5
+          small Out of stock
+
+    .col-md-6
+      .card.p-4
+        h4.mb-3 Add Product
+        if success
+          .alert.alert-success.alert-dismissible.fade.show.mb-3(role="alert" style="background-color: #2d832df6; color: white;")
+            | Product has been added successfully!
+            button.btn-close(type="button", data-bs-dismiss="alert", aria-label="Close")
+        form#productForm(action="/" method="post" enctype="multipart/form-data" novalidate)
+          .mb-3
+            input.form-control#productName(type="text", name="productName", placeholder="Product Name", required)
+            .invalid-feedback Invalid field
+          .mb-3
+            input.form-control#category(type="text", name="category", placeholder="Category", required)
+            .invalid-feedback Invalid field
+          .mb-3
+            input.form-control#price(type="number", name="price", min="0", placeholder="Price", required)
+            .invalid-feedback Invalid field
+          .mb-3
+            input.form-control#quantity(type="number", name="quantity", min="0", placeholder="Quantity", required)
+            .invalid-feedback Invalid field
+          .mb-3.d-flex.gap-2
+            input.form-control#color(type="text", name="color", placeholder="Color", required)
+            .invalid-feedback Invalid field
+            input.form-control#image(type="file", name="image", accept="image/*" placeholder='upload Image')
+            .invalid-feedback Invalid field
+          .d-flex.gap-2
+            button.btn.btn-orange.text-white.flex-fill(type="submit") SAVE
+            button.btn.btn-secondary.flex-fill(type="reset") CLEAR
+
+  .row.mt-4
+    .col-12
+      .card.p-3
+        h4 Products List
+        table.table.table-bordered
+          thead.table-light.table-dark
+            tr
+              th ID
+              th NAME
+              th CATEGORY
+              th PRICE (UGX)
+              th QUANTITY
+          tbody
+            if products && products.length
+              each product, index in products
+                tr
+                  td #{'#' + product.productId}
+                  td #{product.productName}
+                  td #{product.category}
+                  td UGX #{product.price.toLocaleString()}
+                  td #{product.quantity}
+            else
+              tr
+                td(colspan="5") No products yet
+ 
+script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js")
+script(src="js/validations.js")
