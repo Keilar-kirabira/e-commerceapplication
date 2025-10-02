@@ -28,6 +28,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+// Format number: add commas, replace last comma with a dot
+function formatInStock(value) {
+  let formatted = value.toLocaleString("en-US"); // e.g. 15,376,500,000
+  let lastComma = formatted.lastIndexOf(",");
+  if (lastComma !== -1) {
+    formatted = formatted.substring(0, lastComma) + "." + formatted.substring(lastComma + 1);
+  }
+  return formatted;
+}
+
+
 // get request to show page with products 
 router.get("/",  async (req, res) =>{
     try {
@@ -36,7 +48,7 @@ router.get("/",  async (req, res) =>{
     const inStockValue = products.reduce((sum, product) => {
       return sum + (product.price * product.quantity);
     }, 0);
-         res.render("index", {products, inStockValue});             //pass products topug
+         res.render("index", {products, inStockValue: formatInStock(inStockValue)});             //pass products topug
     } catch (error) {
          console.error(error);
         res.send("Error fetching products");
@@ -77,7 +89,7 @@ router.post("/", upload.single("image"), async (req, res) =>{
         const inStockValue =  products.reduce((sum, product) => {
          return sum + (product.price * product.quantity);
     }, 0);
-        res.render("index", { products, inStockValue, success: true });
+        res.render("index", { products, inStockValue: formatInStock(inStockValue), success: true });
     } catch (error) {
         console.error(error);
         res.send("Error saving product");
